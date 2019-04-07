@@ -32,7 +32,8 @@ namespace DatingApp.API
         {
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors();
+            //services.AddCors();
+            
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         .AddJwtBearer(options => {
@@ -41,7 +42,7 @@ namespace DatingApp.API
                                 ValidateIssuerSigningKey = true,
                                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                                 ValidateIssuer = false,
-                                ValidateAudience = false
+                                ValidateAudience = false                                
                             };
                         });
         }
@@ -60,7 +61,9 @@ namespace DatingApp.API
             }
 
             //app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            //app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseCors(x => x.WithOrigins("http://localhost:4200")
+                                .AllowAnyMethod().AllowAnyHeader().AllowCredentials());            
             app.UseAuthentication();
             app.UseMvc();
         }
