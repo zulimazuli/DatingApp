@@ -27,7 +27,6 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            throw new Exception("Coputere says no!");
             //Not needed as we have [ApiController] attribute
             // if(!ModelState.IsValid)
             //     return BadRequest(ModelState);
